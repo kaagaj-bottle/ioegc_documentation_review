@@ -180,10 +180,11 @@ Signal Processing . In conventional multi-layer perceptrons, large number of par
 		Audio  & 90.39    & 88.12    \\
 		\hline
 	\end{tabular}
+	\label{table:overview}
 \end{center}
 
 \subsection{Vision Model}
-The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. Table \ref{table1} shows the various metrics of the vision model.
+The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. Table \ref{table:vision-model} shows the various metrics of the vision model.
 \begin{center}
 	\captionof{table}{Vision Model Metrics}
 	\begin{tabular}{ |c|c|c| }
@@ -213,22 +214,11 @@ The vision model was created with EfficientNetB0 as its base for transfer learni
 		Non-Trainable Parameters & 0                         \\
 		\hline
 	\end{tabular}
-	\label{table1}
+	\label{table:vision-model}
 
 \end{center}
 
-The confusion matrix for vision model on the test dataset is shown in Figure \ref{cm_vision}. Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and loss of vision model respectively.
-
-\begin{figure*}[t] % Use figure* for spanning both columns
-	\centering
-	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
-		\includegraphics[scale=0.53]{Graphics/vision_cm.png} % Replace example-image with your actual image file
-		\caption{Confusion Matrix for Vision Model on test data}
-		\label{cm_vision}
-	\end{minipage}
-\end{figure*}
-
-
+Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and loss of vision model respectively. The confusion matrix for vision model on the test dataset is shown in Figure \ref{cm_vision}.
 
 \begin{figure*}[hbt]
 	\centering
@@ -248,6 +238,19 @@ The confusion matrix for vision model on the test dataset is shown in Figure \re
 \end{figure*}
 
 
+
+\begin{figure*}[t] % Use figure* for spanning both columns
+	\centering
+	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
+		\includegraphics[scale=0.53]{Graphics/vision_cm.png} % Replace example-image with your actual image file
+		\caption{Confusion Matrix for Vision Model on test data}
+		\label{cm_vision}
+	\end{minipage}
+\end{figure*}
+
+
+
+
 \clearpage
 
 
@@ -256,9 +259,7 @@ The confusion matrix for vision model on the test dataset is shown in Figure \re
 
 The audio model was also created with EfficientNetB0 as its base for transfer learning after feature extraction done with MFCC Transform which was again transformed as explained in Section 4.3 for input compatibility with EfficientNetB0.
 \par
-We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.1 on the test dataset. The batch size of 64 was chosen to increase the training pace. The size of test size of each class is 30.
-\par
-The following table shows various metrics of the audio model:
+We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.1 on the test dataset. The size of test size of each class is 30. Table \ref{table:audio-model} shows various metrics of the audio model:
 
 \begin{center}
 	\captionof{table}{Audio Model Metrics}
@@ -289,20 +290,19 @@ The following table shows various metrics of the audio model:
 		Non-Trainable Parameters & 0                         \\
 		\hline
 	\end{tabular}
+	\label{table:audio-model}
 \end{center}
-We see a similar pattern as seen in the vision model. Here too in the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} shows the accuracy and loss of audio model respectively on test data. Figure \ref{cm_audio} shows confusion matrix for audio model on test dataset.
-
-
-\begin{figure*}[hbt]
+We see a similar pattern as seen in the vision model. Here too in the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} shows the accuracy and loss of audio model respectively. Figure \ref{cm_audio} shows confusion matrix for audio model on test dataset.
+\begin{figure*}[ht]
 	\centering
-	\begin{minipage}[t]{0.45\textwidth}
+	\begin{minipage}[ht]{0.45\textwidth}
 		\centering
 		\includegraphics[width=0.8\linewidth]{Graphics/audio_accuracy.png}
 		\caption{Accuracy of Audio Model on Train and Test Data}
 		\label{accuracy-audio}
 	\end{minipage}
 	\hfill
-	\begin{minipage}[t]{0.45\textwidth}
+	\begin{minipage}[ht]{0.45\textwidth}
 		\centering
 		\includegraphics[width=0.8\linewidth]{Graphics/audio_loss.png}
 		\caption{Loss of Audio Model on Train and Test Data}
@@ -320,6 +320,8 @@ We see a similar pattern as seen in the vision model. Here too in the audio mode
 \end{figure*}
 
 
+
+\clearpage
 \section{Conclusion}
 Our research work in wildlife classification combines audio and visual technologies, showing promising accuracy levels of 90.39\% and 86.1\% for audio and vision models, respectively. Despite challenges in distinguishing similar species, our study represents a significant advancement in leveraging technology for wildlife conservation. By enhancing monitoring capabilities, we aim to contribute to sustainable conservation practices and promote harmonious coexistence between humans and wildlife.
 
