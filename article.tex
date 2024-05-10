@@ -59,7 +59,7 @@ In 2021, Qi et al. \cite{r6} worked on image recognition in Animal Husbandry. Th
 We propose an integrated system of using both audio and video. The audio is used as it is with some pre-processing and the video is broken into frames which are fed to the image classifier model.
 
 \section{Dataset Analysis}
-Two mediums vision and audio are being used for
+As two mediums, vision and audio are being used for
 classification of animals, two different datasets comprising of
 labeled images and labeled audio are required. ImageNet was our
 the initial choice for image data but due to the misrepresentation of
@@ -309,7 +309,7 @@ We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.12 on the t
 	\end{tabular}
 	\label{table:audio-model}
 \end{center}
-We see a similar pattern as seen in the vision model. Here too is the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} show the accuracy and loss of the audio model respectively. Figure \ref{cm_audio} shows the confusion matrix for the audio model on the test data.
+We see a similar pattern as seen in the vision model. Here too, the audio model is struggling to classify audio of similar species. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} show the accuracy and loss of the audio model respectively. Figure \ref{cm_audio} shows the confusion matrix for the audio model on the test data.
 \begin{figure*}[ht]
 	\centering
 	\begin{minipage}[ht]{0.45\textwidth}
@@ -340,7 +340,7 @@ We see a similar pattern as seen in the vision model. Here too is the audio mode
 
 \clearpage
 \section{Conclusion}
-Our research work in wildlife classification combines audio and visual technologies, showing promising accuracy levels of 90.39\% and 86.1\% for audio and vision models, respectively. Despite challenges in distinguishing similar species, our study represents a significant advancement in leveraging technology for wildlife conservation. By enhancing monitoring capabilities, we aim to contribute to sustainable conservation practices and promote harmonious coexistence between humans and wildlife.
+Our research work in wildlife classification combines audio and visual technologies, showing promising accuracy levels of 90.39\% and 86.1\% for audio and vision models on test data, respectively. Moreover, the audio and vision model achieves an F1 score of 86.12 and 88.12 on test data respectively. Despite challenges in distinguishing similar species, our study represents a significant advancement in leveraging technology for wildlife conservation. By enhancing monitoring capabilities, we aim to contribute to sustainable conservation practices and promote harmonious coexistence between humans and wildlife.
 
 
 
