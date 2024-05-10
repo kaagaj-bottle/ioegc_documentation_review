@@ -5,7 +5,10 @@
 
 \usepackage{svg}
 \usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
 \usepackage{afterpage}
+\usepackage{float}
 \lstdefinestyle{mystyle}{
     language=Python,
     basicstyle=\small\ttfamily,,
@@ -60,23 +63,21 @@ As two mediums vision and audio are being used for classification of animals, tw
 The image dataset has a total of 44 classes. Of the 44 classes, there are 31 mammals, 9 birds, and 4 reptiles. Moreover, we couldn’t find research-grade audio data for groups of animals other than birds. Thus, the audio model comprises 23 classes of birds all found in Nepal.
 \subsection{Image Data from iNaturalist}
 iNaturalist is an online social network of people sharing biodiversity information. It has a large size of data which includes images, audio, and video of large number of species found around the world. The data is collected by users who submit it to the site under the public domain, Creative Commons, or with all rights reserved. iNaturalist encourages its users to opt for more open licenses like Creative Commons for the research community.We collected a total of 38,442 images spanning across 44 species all found in Nepal. As the data contained some anomalous images, we had to manually remove them. After the cleaning step, the data was preprocessed as per the Efficient Net Model for better training. Of the 38,442 images collected, 50 images from each class were used as test datasets.
-API provided by iNaturalist was used for downloading the data. The bar chart in Figure \ref{image_file_count_animal} shows the frequency of each class of image.
-	{
+API provided by iNaturalist was used for downloading the data. The bar chart in Figure \ref{image-file-count-animal} shows the frequency of each class of image.
 
-		\begin{figure}
-			\centering
-			\includegraphics[scale=0.5]{Graphics/naturalist_horizontal.png}
-			\caption{Image File count for each animal}
-			\label{image_file_count_animal}
-		\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Graphics/naturalist_horizontal.png}
+	\caption{Image File count for each animal}
+	\label{image-file-count-animal}
+\end{figure}
 
-	}
 
 
 
 \subsection{Audio Data from Xeno-canto}
 Xeno-canto is a website dedicated to sharing wildlife sounds from all over the world. It provides its data under several licenses derived from Creative Commons licenses which are free for use for educational and research purposes. We collected a total of thousands of audio spanning 23 classes and performed temporal segmentation with each segment being 5 seconds long. A total of 16,230 audio files each of 5 sec was now our final dataset. Of the 16,230 audio files, 30 files for each class were used as the test dataset.
-API provided by Xeno-canto was used for downloading the data. The bar chart in Figure \ref{audio_file_count_bird} shows the frequency of each class of audio.
+API provided by Xeno-canto was used for downloading the data. The bar chart in Figure \ref{audio-file-count-bird} shows the frequency of each class of audio.
 
 	{
 
@@ -84,7 +85,7 @@ API provided by Xeno-canto was used for downloading the data. The bar chart in F
 			\centering
 			\includegraphics[scale=0.5]{Graphics/xenocanto.png}
 			\caption{Audio File count for each bird}
-			\label{audio_file_count_bird}
+			\label{audio-file-count-bird}
 		\end{figure}
 
 	}
@@ -163,8 +164,8 @@ coefficients.
 \subsection{ Convolutional Neural Network}
 Convolutional Neural Networks are specialized kind of neural networks for processing
 data that has a grid-like topology \cite{r8}. Most machine learning libraries implement cross-correlation rather than conventionally known convolution operations in the realm of Digital
-Signal Processing . In conventional multi-layer perceptrons, large number of parameters are required to learn features where as CNN uses filters to stride through whole data using a lesser number of parameters aka parameter sharing. CNNs are often applied
-in large number of computer vision tasks across the industry.
+Signal Processing . In conventional multi-layer perceptrons, large number of parameters are required to learn features where as CNN uses filters to stride through whole data using a lesser number of parameters aka parameter sharing.
+% CNNs are often applied in large number of computer vision tasks across the industry.
 
 \section{Result and Analysis}
 
@@ -177,13 +178,12 @@ in large number of computer vision tasks across the industry.
 		Vision & 86.1     & 86.12    \\
 		\hline
 		Audio  & 90.39    & 88.12    \\
-
 		\hline
 	\end{tabular}
-
 \end{center}
+
 \subsection{Vision Model}
-The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. The test size of each class is 50. The following table shows the various metrics of the vision model.
+The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. The following table shows the various metrics of the vision model.
 \begin{center}
 	\captionof{table}{Vision Model Metrics}
 	\begin{tabular}{ |c|c|c| }
@@ -214,40 +214,37 @@ The vision model was created with EfficientNetB0 as its base for transfer learni
 		\hline
 	\end{tabular}
 \end{center}
-\clearpage
-The confusion matrix on the test dataset is shown below:
 
+The confusion matrix for vision model on the test dataset is shown in Figure \ref{cm_vision}. Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and loss of vision model respectively.
 
-\begin{figure}[h]
+\begin{figure*}[t] % Use figure* for spanning both columns
 	\centering
-	\includegraphics[scale=0.5]{Graphics/vision_cm.png}
+	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
+		\includegraphics[scale=0.45]{Graphics/vision_cm.png} % Replace example-image with your actual image file
+		\caption{Your caption here.}
+		\label{cm_vision}
+	\end{minipage}
+\end{figure*}
 
-	\caption{Confusion Matrix for Audio Model on test data}
-
-	\label{fig:enter-label}
-\end{figure}
 
 
-\clearpage
-The below figure shows the accuracy and loss of vision model:
-
-\begin{figure}[h]
+\begin{figure*}[hbt]
 	\centering
-	\includegraphics[scale=0.65]{Graphics/accuracy_vision_model.png}
-	\caption{Training and Test Accuracy of Vision Model}
-	\includegraphics[scale=0.65]{Graphics/loss_vision.png}
-	\caption{Training and Test Loss of Vision Model}
-	\label{fig:enter-label}
-\end{figure}
-
-
-
-
-
-
-
-
-
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{Graphics/accuracy_vision_model.png}
+		\caption{Accuracy of Vision Model on Train and Test Data}
+		\label{accuracy-vision}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{Graphics/loss_vision.png}
+		\caption{Loss of Vision Model on Train and Test Data}
+		\label{loss-vision}
+	\end{minipage}
+\end{figure*}
+\clearpage
 
 
 
@@ -347,4 +344,3 @@ feat would not have been achieved without their assistance.
 
 \vfill\null
 \end{document}
-
