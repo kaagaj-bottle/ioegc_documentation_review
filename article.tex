@@ -246,6 +246,8 @@ The confusion matrix for vision model on the test dataset is shown in Figure \re
 		\label{loss-vision}
 	\end{minipage}
 \end{figure*}
+
+
 \clearpage
 
 
@@ -257,7 +259,6 @@ The audio model was also created with EfficientNetB0 as its base for transfer le
 We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.1 on the test dataset. The batch size of 64 was chosen to increase the training pace. The size of test size of each class is 30.
 \par
 The following table shows various metrics of the audio model:
-\vspace{3cm}
 
 \begin{center}
 	\captionof{table}{Audio Model Metrics}
@@ -288,32 +289,36 @@ The following table shows various metrics of the audio model:
 		Non-Trainable Parameters & 0                         \\
 		\hline
 	\end{tabular}
-
 \end{center}
-\clearpage
-The confusion matrix on the test dataset:
-\begin{figure}[h]
+We see a similar pattern as seen in the vision model. Here too in the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} shows the accuracy and loss of audio model respectively on test data. Figure \ref{cm_audio} shows confusion matrix for audio model on test dataset.
+
+
+\begin{figure*}[hbt]
 	\centering
-	\includegraphics[scale=0.4]{Graphics/audio.png}
-	\caption{Confusion Matrix for Audio Model on test data}
-	\label{fig:enter-label}
-\end{figure}
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{Graphics/audio_accuracy.png}
+		\caption{Accuracy of Audio Model on Train and Test Data}
+		\label{accuracy-audio}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.8\linewidth]{Graphics/audio_loss.png}
+		\caption{Loss of Audio Model on Train and Test Data}
+		\label{loss-audio}
+	\end{minipage}
+\end{figure*}
 
-\clearpage
-\par
-We see a similar pattern as seen in the vision model here too in the audio model with similar featured data being mislabeled.
-The figures below show the training and test accuracy as well as loss for the audio model:
-\par
-\begin{figure}[h]
-
+\begin{figure*}[t] % Use figure* for spanning both columns
 	\centering
-	\includegraphics[scale=0.6]{Graphics/audio_accuracy.png}
-	\caption{Training and Test Accuracy of Audio Model}
-	\includegraphics[scale=0.6]{Graphics/audio_loss.png}
-	\caption{Training and Test Loss of Audio Model}
+	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
+		\includegraphics[scale=0.4]{Graphics/audio_cm.png} % Replace example-image with your actual image file
+		\caption{Confusion Matrix for Audio Model on test data}
+		\label{cm_audio}
+	\end{minipage}
+\end{figure*}
 
-	\label{fig:enter-label}
-\end{figure}
 
 \section{Conclusion}
 Our research work in wildlife classification combines audio and visual technologies, showing promising accuracy levels of 90.39\% and 86.1\% for audio and vision models, respectively. Despite challenges in distinguishing similar species, our study represents a significant advancement in leveraging technology for wildlife conservation. By enhancing monitoring capabilities, we aim to contribute to sustainable conservation practices and promote harmonious coexistence between humans and wildlife.
@@ -335,14 +340,6 @@ feat would not have been achieved without their assistance.
 
 \bibliographystyle{unsrt}
 \bibliography{references}
-%Amin, Rajan, et al. "The status of Nepalâ€™ s mammals." Journal of Threatened Taxa 10.3 (2018): 11361-11378.
-
-
-
-
-
-
-
 
 \vfill\null
 \end{document}
