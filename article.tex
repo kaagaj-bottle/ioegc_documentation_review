@@ -183,7 +183,7 @@ Signal Processing . In conventional multi-layer perceptrons, large number of par
 \end{center}
 
 \subsection{Vision Model}
-The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. The following table shows the various metrics of the vision model.
+The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. Table \ref{table1} shows the various metrics of the vision model.
 \begin{center}
 	\captionof{table}{Vision Model Metrics}
 	\begin{tabular}{ |c|c|c| }
@@ -213,6 +213,8 @@ The vision model was created with EfficientNetB0 as its base for transfer learni
 		Non-Trainable Parameters & 0                         \\
 		\hline
 	\end{tabular}
+	\label{table1}
+
 \end{center}
 
 The confusion matrix for vision model on the test dataset is shown in Figure \ref{cm_vision}. Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and loss of vision model respectively.
@@ -220,8 +222,8 @@ The confusion matrix for vision model on the test dataset is shown in Figure \re
 \begin{figure*}[t] % Use figure* for spanning both columns
 	\centering
 	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
-		\includegraphics[scale=0.45]{Graphics/vision_cm.png} % Replace example-image with your actual image file
-		\caption{Your caption here.}
+		\includegraphics[scale=0.53]{Graphics/vision_cm.png} % Replace example-image with your actual image file
+		\caption{Confusion Matrix for Vision Model on test data}
 		\label{cm_vision}
 	\end{minipage}
 \end{figure*}
