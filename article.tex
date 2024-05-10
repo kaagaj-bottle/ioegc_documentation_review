@@ -11,7 +11,7 @@
 \usepackage{float}
 \lstdefinestyle{mystyle}{
     language=Python,
-    basicstyle=\small\ttfamily,,
+    basicstyle=\footnotesize,
     keywordstyle=\color{blue},
     commentstyle=\color{green},
     stringstyle=\color{purple},
@@ -21,7 +21,7 @@
     numbersep=5pt,
     breaklines=true,
     breakatwhitespace=true,
-    tabsize=2
+    tabsize=1
 }
 \hypersetup
 {
@@ -42,7 +42,7 @@ Vision can be sufficient for some species that are of adequate size but vision a
 The paper is structured as follows:
 \begin{itemize}
 	\item Earlier approaches for our objectives are discussed in Section 2.
-	\item The datasets used and their metainformation are explained in Section 3.
+	\item The datasets used and their meta information are explained in Section 3.
 	\item Our approach for the proposed system is elaborated in Section 4.
 	\item The results of our solution are explained in Section 5.
 	\item Finally, the complete project is concluded with a brief paragraph in Section 6.
@@ -50,7 +50,7 @@ The paper is structured as follows:
 
 
 \section{Background and Related Works}
-There have been many instances of work done for wildlife. In 2017, Nguyen et al.\cite{r4} worked on a monitoring system for animals in South-central Victoria, Australia with appreciable results. HOW?
+There have been many instances of work done for wildlife. In 2017, Nguyen et al.\cite{r4} worked on a monitoring system for animals in South-central Victoria, Australia with appreciable results. They used deep convolutional neural networks (DCNNs) to train a model on 3.2 million images of animals spanning 48 species from Tanzania's Serengeti National Park.
 \par
 Gautam et al. 2023 \cite{r5} worked on the classification of birds based on audio data of 44 species found in Nepal. Their work was based on Mel Spectogram features which are often termed "pictures of a sound". Mel Spectogram and MFCC (Mel-Frequency Cepstral Coefficients) were used for feature extraction of audio data which was used to train a Convolutional Neural Network.
 \par
@@ -59,10 +59,16 @@ In 2021, Qi et al. \cite{r6} worked on image recognition in Animal Husbandry. Th
 We propose an integrated system of using both audio and video. The audio is used as it is with some pre-processing and the video is broken into frames which are fed to the image classifier model.
 
 \section{Dataset Analysis}
-As two mediums vision and audio are being used for classification of animals, two different datasets comprising of labeled images and labeled audio are required.
+Two mediums vision and audio are being used for
+classification of animals, two different datasets comprising of
+labeled images and labeled audio are required. ImageNet was our
+the initial choice for image data but due to the misrepresentation of
+species, the idea was dropped, and iNaturalist was chosen as our
+source for image data for its reliability and proper
+representation\cite{r9}.
 The image dataset has a total of 44 classes. Of the 44 classes, there are 31 mammals, 9 birds, and 4 reptiles. Moreover, we couldn’t find research-grade audio data for groups of animals other than birds. Thus, the audio model comprises 23 classes of birds all found in Nepal.
 \subsection{Image Data from iNaturalist}
-iNaturalist is an online social network of people sharing biodiversity information. It has a large size of data which includes images, audio, and video of large number of species found around the world. The data is collected by users who submit it to the site under the public domain, Creative Commons, or with all rights reserved. iNaturalist encourages its users to opt for more open licenses like Creative Commons for the research community.We collected a total of 38,442 images spanning across 44 species all found in Nepal. As the data contained some anomalous images, we had to manually remove them. After the cleaning step, the data was preprocessed as per the Efficient Net Model for better training. Of the 38,442 images collected, 50 images from each class were used as test datasets.
+iNaturalist is an online social network of people sharing biodiversity information. It has a large size of data which includes images, audio, and video of large number of species found around the world. The data is collected by users who submit it to the site under the public domain, Creative Commons, or with all rights reserved. iNaturalist encourages its users to opt for more open licenses like Creative Commons for the research community. We collected a total of 38,442 images spanning 44 species all found in Nepal. As the data contained some anomalous images, we had to manually remove them. After the cleaning step, the data was preprocessed as per the Efficient Net Model for better training. Of the 38,442 images collected, 50 images from each class were used as test datasets.
 API provided by iNaturalist was used for downloading the data. The bar chart in Figure \ref{image-file-count-animal} shows the frequency of each class of image.
 
 \begin{figure}
@@ -94,35 +100,45 @@ API provided by Xeno-canto was used for downloading the data. The bar chart in F
 }
 Mel-frequency cepstrum (MFC) refers to the short-term power spectrum of a sound
 based on cosine transform. Mel-frequency cepstrum Coefficients(MFCCs) are coefficients that collectively make up an MFC. Mel-frequency cepstrum Coefficients transform is done on the audio to extract a small set of features that describes our audio.
-MFCC helps us to capture the essential spectral characteristics of speech signals in a
+MFCC helps us capture the essential spectral characteristics of speech signals in a
 compact form, making them suitable for pattern recognition tasks.
+% default_mfcc_params = {
+%     "n_fft": 2048,
+%     "win_length": None,
+%     "n_mels": 256,
+%     "hop_length": 512,
+%     "htk": True,
+%     "norm_melspec": None,
+%     "n_mfcc": 256,
+%     "norm_mfcc": "ortho",
+%     "dct_type": 2,
+% }
 \begin{lstlisting}[style=mystyle,caption={MFCC Transformation Function},captionpos=b]
 def mfcc_transform(y: np.ndarray,
-                   sr: int,
-                   mfcc_params: Dict
+                   sr: int
                    ) -> torch.Tensor:
     melspec = librosa.feature.melspectrogram(
         y=y,
         sr=sr,
-        n_fft=mfcc_params['n_fft'],
-        win_length=mfcc_params['win_length'],
-        hop_length=mfcc_params['hop_length'],
-        n_mels=mfcc_params['n_mels'],
-        htk=mfcc_params['htk'],
-        norm=mfcc_params['norm_melspec'],
+        n_fft=2048,
+        win_length=2048,
+        hop_length=512,
+        n_mels=256,
+        htk=True,
+        norm="ortho",
     )
     mfcc_librosa = librosa.feature.mfcc(
         S=librosa.core.spectrum.power_to_db(melspec),
-        n_mfcc=mfcc_params['n_mfcc'],
-        dct_type=mfcc_params['dct_type'],
-        norm=mfcc_params['norm_mfcc']
+        n_mfcc=256,
+        dct_type=2,
+        norm="ortho"
     )
 
     return torch.from_numpy(mfcc_librosa)
 \end{lstlisting}
 
 \subsection{Expansion and Interpolation of Audio Data}
-After MFCC transformation, the tensors are transformed again to proper dimension as required by EfficientNetB0 architecture. Following steps are performed:
+After MFCC transformation, the tensors are transformed again to the proper dimension as required by EfficientNetB0 architecture. The following steps are performed:
 \begin{itemize}
 	\item The input tensor y is replicated along one dimension to create three copies, preparing it for subsequent operations.
 	\item The expanded tensor is resized to a fixed size of (224, 224) using bilinear interpolation, ensuring consistent dimensions for neural network input.
@@ -164,27 +180,28 @@ coefficients.
 \subsection{ Convolutional Neural Network}
 Convolutional Neural Networks are specialized kind of neural networks for processing
 data that has a grid-like topology \cite{r8}. Most machine learning libraries implement cross-correlation rather than conventionally known convolution operations in the realm of Digital
-Signal Processing . In conventional multi-layer perceptrons, large number of parameters are required to learn features where as CNN uses filters to stride through whole data using a lesser number of parameters aka parameter sharing.
+Signal Processing. In conventional multi-layer perceptrons, large number of parameters are required to learn features where as CNN uses filters to stride through whole data using a lesser number of parameters aka parameter sharing.
 % CNNs are often applied in large number of computer vision tasks across the industry.
 
 \section{Result and Analysis}
 
 \begin{center}
 	\captionof{table}{Overview of Results of Audio and Video Model}
-	\begin{tabular}{ |c|c|c| }
+	\begin{tabular}{ |c|c|c|c| }
 		\hline
-		Model  & Accuracy & F1 score \\
+		Model  & Train Accuracy & Test Accuracy & F1 score on Test Data \\
 		\hline
-		Vision & 86.1     & 86.12    \\
+		Vision & 96.00          & 86.10         & 86.12                 \\
 		\hline
-		Audio  & 90.39    & 88.12    \\
+		Audio  & 98.36          & 90.39         & 88.12                 \\
+
 		\hline
 	\end{tabular}
 	\label{table:overview}
 \end{center}
 
 \subsection{Vision Model}
-The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.1\% with an F1-Score of 86.12 on the test dataset. Table \ref{table:vision-model} shows the various metrics of the vision model.
+The vision model was created with EfficientNetB0 as its base for transfer learning. We were able to achieve an accuracy of 86.12\% with an F1-Score of 86.12 on the test dataset. Table \ref{table:vision-model} shows the various metrics of the vision model.
 \begin{center}
 	\captionof{table}{Vision Model Metrics}
 	\begin{tabular}{ |c|c|c| }
@@ -218,7 +235,7 @@ The vision model was created with EfficientNetB0 as its base for transfer learni
 
 \end{center}
 
-Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and loss of vision model respectively. The confusion matrix for vision model on the test dataset is shown in Figure \ref{cm_vision}.
+Figure \ref{accuracy-vision} and Figure \ref{loss-vision} show the accuracy and loss of vision model respectively. The confusion matrix for the vision model on the test dataset is shown in Figure \ref{cm_vision}.
 
 \begin{figure*}[hbt]
 	\centering
@@ -243,7 +260,7 @@ Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and
 	\centering
 	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
 		\includegraphics[scale=0.53]{Graphics/vision_cm.png} % Replace example-image with your actual image file
-		\caption{Confusion Matrix for Vision Model on test data}
+		\caption{Confusion Matrix for Vision Model on Test Data}
 		\label{cm_vision}
 	\end{minipage}
 \end{figure*}
@@ -259,7 +276,7 @@ Figure \ref{accuracy-vision} and Figure \ref{loss-vision} shows the accuracy and
 
 The audio model was also created with EfficientNetB0 as its base for transfer learning after feature extraction done with MFCC Transform which was again transformed as explained in Section 4.3 for input compatibility with EfficientNetB0.
 \par
-We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.1 on the test dataset. The size of test size of each class is 30. Table \ref{table:audio-model} shows various metrics of the audio model:
+We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.12 on the test dataset. The test size of each class is 30. Table \ref{table:audio-model} shows various metrics of the audio model:
 
 \begin{center}
 	\captionof{table}{Audio Model Metrics}
@@ -292,7 +309,7 @@ We were able to achieve an accuracy of 90.39\% and an F1-Score of 88.1 on the te
 	\end{tabular}
 	\label{table:audio-model}
 \end{center}
-We see a similar pattern as seen in the vision model. Here too in the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} shows the accuracy and loss of audio model respectively. Figure \ref{cm_audio} shows confusion matrix for audio model on test dataset.
+We see a similar pattern as seen in the vision model. Here too is the audio model with similar featured data being mislabeled. Figure \ref{accuracy-audio} and Figure \ref{loss-audio} show the accuracy and loss of the audio model respectively. Figure \ref{cm_audio} shows the confusion matrix for the audio model on the test data.
 \begin{figure*}[ht]
 	\centering
 	\begin{minipage}[ht]{0.45\textwidth}
@@ -314,7 +331,7 @@ We see a similar pattern as seen in the vision model. Here too in the audio mode
 	\centering
 	\begin{minipage}{\textwidth} % Use minipage to ensure the figure spans the whole width
 		\includegraphics[scale=0.4]{Graphics/audio_cm.png} % Replace example-image with your actual image file
-		\caption{Confusion Matrix for Audio Model on test data}
+		\caption{Confusion Matrix for Audio Model on Test Data}
 		\label{cm_audio}
 	\end{minipage}
 \end{figure*}
@@ -345,3 +362,4 @@ feat would not have been achieved without their assistance.
 
 \vfill\null
 \end{document}
+
